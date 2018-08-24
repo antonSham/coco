@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  code: MyString
+  name: MyString
+  population_density: 1
+  currency: MyString
+  conversion_rate_usd: 1
+
+two:
+  code: MyString
+  name: MyString
+  population_density: 1
+  currency: MyString
+  conversion_rate_usd: 1
