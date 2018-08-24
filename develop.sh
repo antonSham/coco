@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -f docker-compose.base.yml -f docker-compose.develop.yml "$@"
+docker-compose -f docker-compose.develop.yml "$@"
