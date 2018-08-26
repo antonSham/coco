@@ -4,7 +4,7 @@ require 'json'
 class FeedCountriesJob < ApplicationJob
   queue_as :default
 
-  def getData()
+  def getDataFromServer()
     fields = ['name', 'alpha3Code', 'population', 'area', 'currencies']
     route =  'http://restcountries.eu/rest/v2/all'
 
@@ -24,14 +24,12 @@ class FeedCountriesJob < ApplicationJob
     }}
   end
 
-  # def updateData(countries)
-  #   countries.forEach { |country| {
-  #     Model.country
-  #   }}
-  # end
+  def updateData(countries)
+    countries.map { |country| Country.update_info country }
+  end
 
   def perform()
-    countries = getData()
-    puts countries
+    data = (getDataFromServer() rescue [])
+    updateData( data )
   end
 end
