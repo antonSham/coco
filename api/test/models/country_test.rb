@@ -1,72 +1,56 @@
 require 'test_helper'
 
 class CountryTest < ActiveSupport::TestCase
-  test "Added new country" do
-    Country.update_info({
-      :name => "Fake country",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FCV"
-    })
+  options = {
+    :name => "Third country",
+    :code => "TCC",
+    :population_density => 12.32,
+    :currency => "TCC"
+  }
 
-    assert_equal 1, Country.where(:code => "FCO").length
+  test "Adds new country" do
+    Country.update_info(options)
+
+    assert_equal 1, Country.where(:code => options[:code]).length
   end
 
-  test "Do not duplicate" do
-    Country.update_info({
-      :name => "Fake country",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FCV"
-    })
+  test "Does not duplicate" do
+    Country.update_info(options)
+    Country.update_info(options)
 
-    Country.update_info({
-      :name => "Fake country",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FCV"
-    })
-
-    assert_equal 1, Country.where(:code => "FCO").length
+    assert_equal 1, Country.where(:code => options[:code]).length
   end
 
-  test "Erase conversion_rate after currency name update" do
-    Country.update_info({
-      :name => "Fake country",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FCV"
-    })
+  test "Does not erase conversion_rate after ordinary update" do
+    conversion_rate = 34
+    Country.update_info(options)
+    Country.get_by_code(options[:code]).update(:conversion_rate_usd => conversion_rate)
 
-    Country.get_by_code("FCO").update(:conversion_rate_usd => 34)
-
-    Country.update_info({
-      :name => "Fake country",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FDV"
-    })
-
-    assert_nil Country.get_by_code("FCO")[:conversion_rate_usd]
+    Country.update_info(options)
+    assert_equal conversion_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
   end
 
-  test "Do not erase conversion_rate after ordinary update" do
-    Country.update_info({
-      :name => "Fake country",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FCV"
-    })
+  test "Erases conversion_rate after currency name update" do
+    Country.update_info(options)
+    Country.get_by_code(options[:code]).update(:conversion_rate_usd => 34)
 
-    Country.get_by_code("FCO").update(:conversion_rate_usd => 34)
+    Country.update_info(options.merge(:currency => "NNN"))
+    assert_nil Country.get_by_code(options[:code])[:conversion_rate_usd]
+  end
 
-    Country.update_info({
-      :name => "Fake country name",
-      :code => "FCO",
-      :population_density => 12.32,
-      :currency => "FCV"
-    })
+  test "Gets courancy list" do
+    Country.update_info(options)
+    assert_equal ["FCC", "SCC", "TCC"].sort, Country.get_currencies.sort
+  end
 
-    assert_equal 34, Country.get_by_code("FCO")[:conversion_rate_usd]
+  test "Does not duplicate currencies" do
+    Country.update_info(options)
+    Country.update_info(options.merge(:code => "NN"))
+    assert_equal ["FCC", "SCC", "TCC"].sort, Country.get_currencies.sort
+  end
+
+  test "Does not get nil currencies" do
+    Country.update_info(options.merge(:currency => nil))
+    assert_equal ["FCC", "SCC"].sort, Country.get_currencies.sort
   end
 end

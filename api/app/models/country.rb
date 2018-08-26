@@ -18,4 +18,8 @@ class Country < ApplicationRecord
       end
     end
   end
+
+  def self.get_currencies
+    Country.where.not(:currency => nil).select(:currency).map(&:currency).uniq
+  end
 end
