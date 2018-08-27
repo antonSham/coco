@@ -1,0 +1,9 @@
+:schedule:
+  pull_data:
+    cron: '0 0 * * * *'   # Runs every hour
+    class: PullWorker
+
+    queue: slow
+    description: "This job fetchs the date from remote services"
+
+    enabled: true
