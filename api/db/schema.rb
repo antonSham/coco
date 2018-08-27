@@ -18,9 +18,9 @@ ActiveRecord::Schema.define(version: 2018_08_24_120605) do
   create_table "countries", force: :cascade do |t|
     t.string "code"
     t.string "name"
-    t.integer "population_density"
+    t.float "population_density"
     t.string "currency"
-    t.integer "conversion_rate_eur"
+    t.float "conversion_rate_eur"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
