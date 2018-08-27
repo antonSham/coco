@@ -12,4 +12,4 @@ ENV BUNDLE_PATH /gems
 
 RUN bundle install
 
-COPY . /app
+COPY . /api

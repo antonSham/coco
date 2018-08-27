@@ -3,9 +3,9 @@ class CreateCountries < ActiveRecord::Migration[5.2]
     create_table :countries do |t|
       t.string :code
       t.string :name
-      t.integer :population_density
+      t.double :population_density
       t.string :currency
-      t.integer :conversion_rate_eur
+      t.double :conversion_rate_eur
 
       t.timestamps
     end
