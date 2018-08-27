@@ -22,4 +22,8 @@ class Country < ApplicationRecord
   def self.get_currencies
     Country.where.not(:currency => nil).select(:currency).map(&:currency).uniq
   end
+
+  def self.update_conversation_rate currency_code, value
+    Country.where(:currency => currency_code).update(:conversion_rate_usd => value)
+  end
 end

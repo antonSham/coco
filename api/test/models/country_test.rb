@@ -53,4 +53,22 @@ class CountryTest < ActiveSupport::TestCase
     Country.update_info(options.merge(:currency => nil))
     assert_equal ["FCC", "SCC"].sort, Country.get_currencies.sort
   end
+
+  test "Updates currency" do
+    conversation_rate = 34
+    Country.update_info(options)
+    Country.update_conversation_rate options[:currency], conversation_rate
+
+    assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
+  end
+
+  test "Updates multiple currency" do
+    conversation_rate = 34
+    Country.update_info(options)
+    Country.update_info(options.merge(:code => "NN"))
+    Country.update_conversation_rate options[:currency], conversation_rate
+
+    assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
+    assert_equal conversation_rate, Country.get_by_code("NN")[:conversion_rate_usd]
+  end
 end
