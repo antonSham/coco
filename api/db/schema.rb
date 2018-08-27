@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 2018_08_24_120605) do
     t.string "name"
     t.integer "population_density"
     t.string "currency"
-    t.integer "conversion_rate_usd"
+    t.integer "conversion_rate_eur"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

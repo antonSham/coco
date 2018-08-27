@@ -24,18 +24,18 @@ class CountryTest < ActiveSupport::TestCase
   test "Does not erase conversion_rate after ordinary update" do
     conversion_rate = 34
     Country.update_info(options)
-    Country.get_by_code(options[:code]).update(:conversion_rate_usd => conversion_rate)
+    Country.get_by_code(options[:code]).update(:conversion_rate_eur => conversion_rate)
 
     Country.update_info(options)
-    assert_equal conversion_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
+    assert_equal conversion_rate, Country.get_by_code(options[:code])[:conversion_rate_eur]
   end
 
   test "Erases conversion_rate after currency name update" do
     Country.update_info(options)
-    Country.get_by_code(options[:code]).update(:conversion_rate_usd => 34)
+    Country.get_by_code(options[:code]).update(:conversion_rate_eur => 34)
 
     Country.update_info(options.merge(:currency => "NNN"))
-    assert_nil Country.get_by_code(options[:code])[:conversion_rate_usd]
+    assert_nil Country.get_by_code(options[:code])[:conversion_rate_eur]
   end
 
   test "Gets courancy list" do
@@ -59,7 +59,7 @@ class CountryTest < ActiveSupport::TestCase
     Country.update_info(options)
     Country.update_conversation_rate options[:currency], conversation_rate
 
-    assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
+    assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_eur]
   end
 
   test "Updates multiple currency" do
@@ -68,8 +68,8 @@ class CountryTest < ActiveSupport::TestCase
     Country.update_info(options.merge(:code => "NN"))
     Country.update_conversation_rate options[:currency], conversation_rate
 
-    assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
-    assert_equal conversation_rate, Country.get_by_code("NN")[:conversion_rate_usd]
+    assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_eur]
+    assert_equal conversation_rate, Country.get_by_code("NN")[:conversion_rate_eur]
   end
 
   test "Does not fail get_all_for_graphql" do

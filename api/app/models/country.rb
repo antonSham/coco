@@ -11,7 +11,7 @@ class Country < ApplicationRecord
           Country.create(current_country_info)
         else
           unless (country[:currency] == current_country_info[:currency])
-            country.conversion_rate_usd = nil
+            country.conversion_rate_eur = nil
           end
           country.update(current_country_info)
           country.save!
@@ -24,16 +24,16 @@ class Country < ApplicationRecord
   end
 
   def self.update_conversation_rate currency_code, value
-    Country.where(:currency => currency_code).update(:conversion_rate_usd => value)
+    Country.where(:currency => currency_code).update(:conversion_rate_eur => value)
   end
 
   def self.get_all_for_graphql
-    Country.where.not(:conversion_rate_usd => nil).select(
+    Country.where.not(:conversion_rate_eur => nil).select(
       :code,
       :name,
       :population_density,
       :currency,
-      'conversion_rate_usd AS conversion_rate'
+      'conversion_rate_eur AS conversion_rate'
     )
   end
 end

@@ -5,7 +5,7 @@ class CreateCountries < ActiveRecord::Migration[5.2]
       t.string :name
       t.integer :population_density
       t.string :currency
-      t.integer :conversion_rate_usd
+      t.integer :conversion_rate_eur
 
       t.timestamps
     end

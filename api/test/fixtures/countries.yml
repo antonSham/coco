@@ -5,11 +5,11 @@ one:
   name: First country
   population_density: 1
   currency: FCC
-  conversion_rate_usd: 1
+  conversion_rate_eur: 1
 
 two:
   code: SC
   name: Second country
   population_density: 1
   currency: SCC
-  conversion_rate_usd: 1
+  conversion_rate_eur: 1
