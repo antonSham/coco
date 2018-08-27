@@ -23,7 +23,7 @@ class PullWorker
       :name => country['name'],
       :code => country['alpha3Code'],
       :population_density => (
-        (country['population'] / country['area']).round(2) rescue nil
+        (1.0 * country['population'] / country['area']).round(2) rescue nil
       ),
       :currency => (country['currencies'][0]['code'] rescue nil)
     }}
