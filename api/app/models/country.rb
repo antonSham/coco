@@ -26,4 +26,14 @@ class Country < ApplicationRecord
   def self.update_conversation_rate currency_code, value
     Country.where(:currency => currency_code).update(:conversion_rate_usd => value)
   end
+
+  def self.get_all_for_graphql
+    Country.where.not(:conversion_rate_usd => nil).select(
+      :code,
+      :name,
+      :population_density,
+      :currency,
+      'conversion_rate_usd AS conversion_rate'
+    )
+  end
 end

@@ -71,4 +71,10 @@ class CountryTest < ActiveSupport::TestCase
     assert_equal conversation_rate, Country.get_by_code(options[:code])[:conversion_rate_usd]
     assert_equal conversation_rate, Country.get_by_code("NN")[:conversion_rate_usd]
   end
+
+  test "Does not fail get_all_for_graphql" do
+    assert_nothing_raised do
+      Country.get_all_for_graphql
+    end
+  end
 end
